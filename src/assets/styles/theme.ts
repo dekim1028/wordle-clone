@@ -18,6 +18,12 @@ export const theme = {
     gray11: '#363636',
     white: '#ffffff',
   },
+  keyboardHeight: 200,
+  headerHeight: 65,
+  maxBoardSize: {
+    width: 350,
+    height: 420,
+  },
 };
 
 export type Theme = typeof theme;
