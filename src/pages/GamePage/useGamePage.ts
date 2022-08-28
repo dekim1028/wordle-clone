@@ -5,6 +5,7 @@ import {
   setAnswer,
   setInputList,
   setTriedData,
+  setWordData,
 } from '../../store/slice/boardSlice';
 import words from '../../assets/data/words.json';
 import { theme } from '../../assets/styles/theme';
@@ -41,10 +42,10 @@ const useGamePage = () => {
   const checkWords = () => {
     const word = inputList[tried].slice();
     const answerArr = answer.split('');
-    if (words.indexOf(word.join('').toLowerCase()) === -1) {
-      // TODO : toast 띄우기
-      return;
-    }
+    // if (words.indexOf(word.join('').toLowerCase()) === -1) {
+    //   // TODO : toast 띄우기
+    //   return;
+    // }
 
     let triedResult: ITriedData[] = [];
     word.forEach((w, idx) => {
@@ -67,7 +68,9 @@ const useGamePage = () => {
       }
     });
 
-    dispatch(setTriedData(triedResult.sort((cu, pr) => cu.idx - pr.idx)));
+    const result = triedResult.sort((cu, pr) => cu.idx - pr.idx);
+    dispatch(setTriedData(result));
+    dispatch(setWordData(result));
   };
 
   const onKeyDown = (e: KeyboardEvent) => {
@@ -115,7 +118,7 @@ const useGamePage = () => {
     };
   }, []);
 
-  return { boardSize };
+  return { boardSize, checkWords };
 };
 
 export default useGamePage;

@@ -13,6 +13,7 @@ export const Container = styled.button<{ status: WordStatusType }>`
   background-color: ${({ theme }) => theme.color.gray04};
   font-weight: bold;
   text-transform: uppercase;
+  outline: none;
   cursor: pointer;
 
   &:last-of-type {

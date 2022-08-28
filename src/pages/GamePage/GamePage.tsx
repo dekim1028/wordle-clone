@@ -5,7 +5,7 @@ import useGamePage from './useGamePage';
 import * as STC from './GamePage.style';
 
 const GamePage = () => {
-  const { boardSize } = useGamePage();
+  const { boardSize, checkWords } = useGamePage();
 
   return (
     <STC.Container>
@@ -14,7 +14,7 @@ const GamePage = () => {
       </STC.Header>
       <STC.Content>
         <Board boardSize={boardSize} />
-        <KeyBoard />
+        <KeyBoard checkWords={checkWords} />
       </STC.Content>
     </STC.Container>
   );

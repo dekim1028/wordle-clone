@@ -3,15 +3,20 @@ import Key from './Key';
 import useKeyBoard from './useKeyBoard';
 import * as STC from './KeyBoard.style';
 
-const KeyBoard = () => {
-  const { keyboardLayout } = useKeyBoard();
+const KeyBoard = ({ checkWords }: { checkWords: () => void }) => {
+  const { keyboardLayout, wordData, onKeyDown } = useKeyBoard({ checkWords });
 
   return (
     <STC.Container>
       {keyboardLayout.map((raw, idx) => (
         <STC.KeyboardRaw key={`keyboard_raw_${idx}`}>
           {raw.map((value: string) => (
-            <Key key={value} value={value} />
+            <Key
+              key={value}
+              value={value}
+              status={wordData[value] ?? ''}
+              onKeyDown={onKeyDown}
+            />
           ))}
         </STC.KeyboardRaw>
       ))}

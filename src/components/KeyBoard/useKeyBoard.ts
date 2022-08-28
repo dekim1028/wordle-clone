@@ -1,13 +1,37 @@
 import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hoc/useRedux';
+import { deleteInput, setInputList } from '../../store/slice/boardSlice';
 
-const useKeyBoard = () => {
+const useKeyBoard = ({ checkWords }: { checkWords: () => void }) => {
+  const dispatch = useAppDispatch();
+
   const [keyboardLayout] = useState([
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
     ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
     ['{enter}', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '{delete}'],
   ]);
 
-  return { keyboardLayout };
+  const { tried, inputList, wordData } = useAppSelector(({ board }) => ({
+    tried: board.tried,
+    inputList: board.inputList,
+    wordData: board.wordData,
+  }));
+
+  const onKeyDown = (key: string) => {
+    if (key === '{enter}') {
+      if (inputList[tried].length === 5) {
+        checkWords();
+      } else {
+        // TODO : 에러
+      }
+    } else if (key === '{delete}') {
+      dispatch(deleteInput());
+    } else if (key.length === 1 && /[a-z|A-Z]/.test(key)) {
+      dispatch(setInputList(key.toUpperCase()));
+    }
+  };
+
+  return { keyboardLayout, wordData, onKeyDown };
 };
 
 export default useKeyBoard;

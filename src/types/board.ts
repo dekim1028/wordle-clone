@@ -3,6 +3,7 @@ export interface IBoardInitState {
   triedData: ITriedData[][];
   inputList: string[][];
   answer: string;
+  wordData: Record<string, WordStatusType>;
 }
 
 export interface ITriedData {

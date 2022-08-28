@@ -7,6 +7,34 @@ const initialState: IBoardInitState = {
   triedData: [],
   inputList: [[]],
   answer: '',
+  wordData: {
+    A: '',
+    B: '',
+    C: '',
+    D: '',
+    E: '',
+    F: '',
+    G: '',
+    H: '',
+    I: '',
+    J: '',
+    K: '',
+    L: '',
+    M: '',
+    N: '',
+    O: '',
+    P: '',
+    Q: '',
+    R: '',
+    S: '',
+    T: '',
+    U: '',
+    V: '',
+    W: '',
+    X: '',
+    Y: '',
+    Z: '',
+  },
 };
 
 export const boardSlice = createSlice({
@@ -35,10 +63,21 @@ export const boardSlice = createSlice({
         state.inputList = [...state.inputList, []];
       }
     },
+    setWordData: (state, { payload }: PayloadAction<ITriedData[]>) => {
+      payload.forEach(data => {
+        if (state.wordData[data.key] === 'C') return;
+        state.wordData[data.key] = data.status;
+      });
+    },
   },
 });
 
-export const { setInputList, deleteInput, setAnswer, setTriedData } =
-  boardSlice.actions;
+export const {
+  setInputList,
+  deleteInput,
+  setAnswer,
+  setTriedData,
+  setWordData,
+} = boardSlice.actions;
 
 export default boardSlice.reducer;
