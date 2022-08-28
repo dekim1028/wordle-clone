@@ -9,7 +9,7 @@ export const Container = styled.div<{
   align-items: center;
   justify-content: center;
   border: 1px solid ${({ theme }) => theme.color.gray04};
-  font-size: 30px;
+  font-size: 2em;
   font-weight: bold;
   text-transform: uppercase;
 
@@ -45,4 +45,8 @@ export const Container = styled.div<{
         css`
           background-color: ${theme.tile.gray};
         `};
+
+  ${({ theme }) => theme.media.mobile`
+    font-size: 1em;
+  `};
 `;

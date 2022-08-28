@@ -39,4 +39,8 @@ export const Container = styled.div<{ status: WordStatusType }>`
         css`
           background-color: ${theme.tile.gray};
         `};
+
+  ${({ theme }) => theme.media.mobile`
+    padding: 0 3%;
+  `};
 `;

@@ -1,3 +1,5 @@
+import media from './media';
+
 export const theme = {
   tile: {
     green: '#6aaa64',
@@ -24,6 +26,7 @@ export const theme = {
     width: 350,
     height: 420,
   },
+  media,
 };
 
 export type Theme = typeof theme;

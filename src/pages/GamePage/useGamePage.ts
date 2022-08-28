@@ -121,6 +121,7 @@ const useGamePage = () => {
   }, [answer]);
 
   useEffect(() => {
+    onWindowResized();
     window.addEventListener('resize', onWindowResized);
 
     return () => {

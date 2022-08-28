@@ -24,6 +24,6 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: calc(100% - 65px);
+  height: ${({ theme }) => `calc(100% - ${theme.headerHeight}px)`};
   margin: 0 auto;
 `;
