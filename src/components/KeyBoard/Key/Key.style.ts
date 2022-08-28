@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { WordStatusType } from '../../../types/board';
 
-export const Container = styled.button<{ status: WordStatusType }>`
+export const Container = styled.div<{ status: WordStatusType }>`
   display: flex;
   align-items: center;
   justify-content: center;
