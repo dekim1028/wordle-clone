@@ -7,9 +7,10 @@ import {
   setTriedData,
   setWordData,
 } from '../../store/slice/boardSlice';
+import { addToast, setModalVisible } from '../../store/slice/utilSlice';
+import { ITriedData } from '../../types/board';
 import words from '../../assets/data/words.json';
 import { theme } from '../../assets/styles/theme';
-import { ITriedData } from '../../types/board';
 
 const useGamePage = () => {
   const dispatch = useAppDispatch();
@@ -42,10 +43,10 @@ const useGamePage = () => {
   const checkWords = () => {
     const word = inputList[tried].slice();
     const answerArr = answer.split('');
-    // if (words.indexOf(word.join('').toLowerCase()) === -1) {
-    //   // TODO : toast 띄우기
-    //   return;
-    // }
+    if (words.indexOf(word.join('').toLowerCase()) === -1) {
+      dispatch(addToast('Not in word list'));
+      return;
+    }
 
     let triedResult: ITriedData[] = [];
     word.forEach((w, idx) => {
@@ -77,10 +78,13 @@ const useGamePage = () => {
     const key = e.key;
 
     if (key === 'Enter') {
-      if (inputList[tried].length === 5) {
+      if (tried === 6) {
+        dispatch(setModalVisible(true));
+        return;
+      } else if (inputList[tried].length === 5) {
         checkWords();
       } else {
-        // TODO : 에러
+        dispatch(addToast('Not enough letters'));
       }
     } else if (key === 'Backspace') {
       dispatch(deleteInput());
@@ -92,10 +96,11 @@ const useGamePage = () => {
   useEffect(() => {
     if (tried === 0) return;
 
-    const checkCorrect = triedData[tried - 1].some(data => data.status === 'C');
+    const checkCorrect = triedData[tried - 1].every(
+      data => data.status === 'C'
+    );
     if (tried === 6 || checkCorrect) {
-      // TODO: 공유 모달
-      console.log('END');
+      dispatch(setModalVisible(true));
     }
   }, [tried]);
 

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hoc/useRedux';
 import { deleteInput, setInputList } from '../../store/slice/boardSlice';
+import { addToast } from '../../store/slice/utilSlice';
 
 const useKeyBoard = ({ checkWords }: { checkWords: () => void }) => {
   const dispatch = useAppDispatch();
@@ -22,7 +23,7 @@ const useKeyBoard = ({ checkWords }: { checkWords: () => void }) => {
       if (inputList[tried].length === 5) {
         checkWords();
       } else {
-        // TODO : 에러
+        dispatch(addToast('Not enough letters'));
       }
     } else if (key === '{delete}') {
       dispatch(deleteInput());
