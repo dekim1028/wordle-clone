@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hoc/useRedux';
 import { resetGame } from '../../store/slice/boardSlice';
-import { setModalVisible } from '../../store/slice/utilSlice';
+import { addToast, setModalVisible } from '../../store/slice/utilSlice';
 
 const useShareModal = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +25,9 @@ const useShareModal = () => {
 
   const handleShare = async () => {
     try {
-      await navigator.clipboard.writeText(result);
+      await navigator.clipboard.writeText(result).then(() => {
+        dispatch(addToast('copied'));
+      });
     } catch (e) {
       console.log(e);
     }
