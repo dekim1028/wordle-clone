@@ -24,8 +24,9 @@ export const boardSlice = createSlice({
     },
     updateTried: state => {
       state.tried += 1;
-      // TODO : 도전횟수 넘겼을 때 처리
-      state.inputList = [...state.inputList, []];
+      if (state.tried < 6) {
+        state.inputList = [...state.inputList, []];
+      }
     },
   },
 });

@@ -1,5 +1,4 @@
-import React from 'react';
-import Tile from '../Tile';
+import useBoard from './useBoard';
 import * as STC from './Board.style';
 
 const Board = ({
@@ -7,51 +6,14 @@ const Board = ({
 }: {
   boardSize: { width: number; height: number };
 }) => {
+  const { triedTiles, nowTiles, blankTiles } = useBoard();
+
   return (
     <STC.Container>
       <STC.Wrapper boardSize={boardSize}>
-        <STC.Raw>
-          <Tile />
-          <Tile />
-          <Tile />
-          <Tile />
-          <Tile />
-        </STC.Raw>
-        <STC.Raw>
-          <Tile />
-          <Tile />
-          <Tile />
-          <Tile />
-          <Tile />
-        </STC.Raw>
-        <STC.Raw>
-          <Tile />
-          <Tile />
-          <Tile />
-          <Tile />
-          <Tile />
-        </STC.Raw>
-        <STC.Raw>
-          <Tile />
-          <Tile />
-          <Tile />
-          <Tile />
-          <Tile />
-        </STC.Raw>
-        <STC.Raw>
-          <Tile />
-          <Tile />
-          <Tile />
-          <Tile />
-          <Tile />
-        </STC.Raw>
-        <STC.Raw>
-          <Tile />
-          <Tile />
-          <Tile />
-          <Tile />
-          <Tile />
-        </STC.Raw>
+        {triedTiles}
+        {nowTiles}
+        {blankTiles}
       </STC.Wrapper>
     </STC.Container>
   );
