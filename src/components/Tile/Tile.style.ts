@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { WordStatusType } from '../../types/util';
+import { WordStatusType } from '../../types/board';
 
 export const Container = styled.div<{
   hasLetter: boolean;
@@ -28,6 +28,7 @@ export const Container = styled.div<{
   ${({ status }) =>
     status &&
     css`
+      border: none;
       color: ${({ theme }) => theme.color.white};
     `};
 

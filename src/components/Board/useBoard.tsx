@@ -8,8 +8,9 @@ const useBoard = () => {
   const [nowTiles, setNowTiles] = useState<JSX.Element | null>(null);
   const [blankTiles, setBlankTiles] = useState<JSX.Element[]>([]);
 
-  const { tried, inputList } = useAppSelector(({ board }) => ({
+  const { tried, triedData, inputList } = useAppSelector(({ board }) => ({
     tried: board.tried,
+    triedData: board.triedData,
     inputList: board.inputList,
   }));
 
@@ -21,7 +22,6 @@ const useBoard = () => {
 
     const word = inputList[tried];
     const raw: JSX.Element[] = [];
-
     for (let i = 0; i < word.length; i += 1) {
       raw.push(<Tile key={`word_${i}`} letter={word[i]} />);
     }
@@ -30,26 +30,29 @@ const useBoard = () => {
     }
 
     const _nowTiles: JSX.Element = <STC.Raw>{raw}</STC.Raw>;
-
     setNowTiles(_nowTiles);
   }, [tried, inputList]);
 
   useEffect(() => {
     const _triedTiles: JSX.Element[] = [];
 
-    for (let i = 0; i < tried; i++) {
-      const raw = inputList[i];
+    for (let i = 0; i < triedData.length; i++) {
+      const raw = triedData[i];
       _triedTiles.push(
         <STC.Raw key={`tried_raw_${i}`}>
           {raw.map((letter, idx) => (
-            <Tile key={`tried_tile_${idx}`} letter={letter} />
+            <Tile
+              key={`tried_tile_${idx}`}
+              letter={letter.key}
+              status={letter.status}
+            />
           ))}
         </STC.Raw>
       );
     }
 
     setTriedTiles(_triedTiles);
-  }, [tried]);
+  }, [triedData]);
 
   useEffect(() => {
     const _blankTiles: JSX.Element[] = [];

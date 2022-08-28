@@ -2,10 +2,13 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hoc/useRedux';
 import {
   deleteInput,
+  setAnswer,
   setInputList,
-  updateTried,
+  setTriedData,
 } from '../../store/slice/boardSlice';
+import words from '../../assets/data/words.json';
 import { theme } from '../../assets/styles/theme';
+import { ITriedData } from '../../types/board';
 
 const useGamePage = () => {
   const dispatch = useAppDispatch();
@@ -15,10 +18,14 @@ const useGamePage = () => {
     height: theme.maxBoardSize.height,
   });
 
-  const { tried, inputList } = useAppSelector(({ board }) => ({
-    tried: board.tried,
-    inputList: board.inputList,
-  }));
+  const { tried, triedData, inputList, answer } = useAppSelector(
+    ({ board }) => ({
+      tried: board.tried,
+      triedData: board.triedData,
+      inputList: board.inputList,
+      answer: board.answer,
+    })
+  );
 
   const onWindowResized = () => {
     const height = Math.round(
@@ -32,8 +39,35 @@ const useGamePage = () => {
   };
 
   const checkWords = () => {
-    // TODO : 단어 검사
-    dispatch(updateTried());
+    const word = inputList[tried].slice();
+    const answerArr = answer.split('');
+    if (words.indexOf(word.join('').toLowerCase()) === -1) {
+      // TODO : toast 띄우기
+      return;
+    }
+
+    let triedResult: ITriedData[] = [];
+    word.forEach((w, idx) => {
+      if (w === answerArr[idx]) {
+        word[idx] = '#';
+        answerArr[idx] = '#';
+        triedResult = [...triedResult, { idx, key: w, status: 'C' }];
+      }
+    });
+
+    word.forEach((w, idx) => {
+      if (w !== '#') {
+        const usedIdx = answerArr.indexOf(w);
+        if (usedIdx > -1) {
+          answerArr[usedIdx] = '#';
+          triedResult = [...triedResult, { idx, key: w, status: 'W' }];
+        } else {
+          triedResult = [...triedResult, { idx, key: w, status: 'N' }];
+        }
+      }
+    });
+
+    dispatch(setTriedData(triedResult.sort((cu, pr) => cu.idx - pr.idx)));
   };
 
   const onKeyDown = (e: KeyboardEvent) => {
@@ -53,6 +87,16 @@ const useGamePage = () => {
   };
 
   useEffect(() => {
+    if (tried === 0) return;
+
+    const checkCorrect = triedData[tried - 1].some(data => data.status === 'C');
+    if (tried === 6 || checkCorrect) {
+      // TODO: 공유 모달
+      console.log('END');
+    }
+  }, [tried]);
+
+  useEffect(() => {
     window.addEventListener('keydown', onKeyDown);
 
     return () => {
@@ -61,6 +105,9 @@ const useGamePage = () => {
   }, [inputList, tried]);
 
   useEffect(() => {
+    const random = Math.floor(Math.random() * words.length);
+    dispatch(setAnswer(words[random].toUpperCase()));
+
     window.addEventListener('resize', onWindowResized);
 
     return () => {

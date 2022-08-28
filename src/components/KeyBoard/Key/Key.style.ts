@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { WordStatusType } from '../../../types/util';
+import { WordStatusType } from '../../../types/board';
 
 export const Container = styled.button<{ status: WordStatusType }>`
   display: flex;
