@@ -4,6 +4,7 @@ export interface IBoardInitState {
   inputList: string[][];
   answer: string;
   wordData: Record<string, WordStatusType>;
+  isFinished: boolean;
 }
 
 export interface ITriedData {

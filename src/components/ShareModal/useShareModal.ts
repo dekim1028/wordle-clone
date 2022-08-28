@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hoc/useRedux';
+import { resetGame } from '../../store/slice/boardSlice';
 import { setModalVisible } from '../../store/slice/utilSlice';
 
 const useShareModal = () => {
@@ -18,7 +19,8 @@ const useShareModal = () => {
   };
 
   const handleRetry = () => {
-    // TODO: 초기화
+    dispatch(resetGame());
+    dispatch(setModalVisible(false));
   };
 
   const handleShare = async () => {

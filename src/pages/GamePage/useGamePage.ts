@@ -4,6 +4,7 @@ import {
   deleteInput,
   setAnswer,
   setInputList,
+  setIsFinished,
   setTriedData,
   setWordData,
 } from '../../store/slice/boardSlice';
@@ -20,12 +21,13 @@ const useGamePage = () => {
     height: theme.maxBoardSize.height,
   });
 
-  const { tried, triedData, inputList, answer } = useAppSelector(
+  const { tried, triedData, inputList, answer, isFinished } = useAppSelector(
     ({ board }) => ({
       tried: board.tried,
       triedData: board.triedData,
       inputList: board.inputList,
       answer: board.answer,
+      isFinished: board.isFinished,
     })
   );
 
@@ -75,13 +77,11 @@ const useGamePage = () => {
   };
 
   const onKeyDown = (e: KeyboardEvent) => {
+    if (isFinished) return;
     const key = e.key;
 
     if (key === 'Enter') {
-      if (tried === 6) {
-        dispatch(setModalVisible(true));
-        return;
-      } else if (inputList[tried].length === 5) {
+      if (inputList[tried].length === 5) {
         checkWords();
       } else {
         dispatch(addToast('Not enough letters'));
@@ -100,6 +100,7 @@ const useGamePage = () => {
       data => data.status === 'C'
     );
     if (tried === 6 || checkCorrect) {
+      dispatch(setIsFinished());
       dispatch(setModalVisible(true));
     }
   }, [tried]);
@@ -110,12 +111,16 @@ const useGamePage = () => {
     return () => {
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [inputList, tried]);
+  }, [inputList, tried, isFinished]);
 
   useEffect(() => {
+    if (answer !== '') return;
+
     const random = Math.floor(Math.random() * words.length);
     dispatch(setAnswer(words[random].toUpperCase()));
+  }, [answer]);
 
+  useEffect(() => {
     window.addEventListener('resize', onWindowResized);
 
     return () => {

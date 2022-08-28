@@ -35,6 +35,7 @@ const initialState: IBoardInitState = {
     Y: '',
     Z: '',
   },
+  isFinished: false,
 };
 
 export const boardSlice = createSlice({
@@ -69,6 +70,13 @@ export const boardSlice = createSlice({
         state.wordData[data.key] = data.status;
       });
     },
+    setIsFinished: state => {
+      state.isFinished = true;
+    },
+    resetGame: state => {
+      state = initialState;
+      return state;
+    },
   },
 });
 
@@ -78,6 +86,8 @@ export const {
   setAnswer,
   setTriedData,
   setWordData,
+  setIsFinished,
+  resetGame,
 } = boardSlice.actions;
 
 export default boardSlice.reducer;

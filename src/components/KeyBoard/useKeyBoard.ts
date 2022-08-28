@@ -12,13 +12,18 @@ const useKeyBoard = ({ checkWords }: { checkWords: () => void }) => {
     ['{enter}', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '{delete}'],
   ]);
 
-  const { tried, inputList, wordData } = useAppSelector(({ board }) => ({
-    tried: board.tried,
-    inputList: board.inputList,
-    wordData: board.wordData,
-  }));
+  const { tried, inputList, wordData, isFinished } = useAppSelector(
+    ({ board }) => ({
+      tried: board.tried,
+      inputList: board.inputList,
+      wordData: board.wordData,
+      isFinished: board.isFinished,
+    })
+  );
 
   const onKeyDown = (key: string) => {
+    if (isFinished) return;
+
     if (key === '{enter}') {
       if (inputList[tried].length === 5) {
         checkWords();
