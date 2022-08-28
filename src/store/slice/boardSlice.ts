@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { IBoardInitState, ITriedData, WordStatusType } from '../../types/board';
+import { IBoardInitState, ITriedData } from '../../types/board';
 
 const initialState: IBoardInitState = {
   tried: 0,
